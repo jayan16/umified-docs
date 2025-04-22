@@ -46,14 +46,14 @@
           {
             "group": "Endpoint Examples",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/get2",
-              "api-reference/endpoint/create2",
-              "api-reference/endpoint/create3",
-              "api-reference/endpoint/create4",
-              "api-reference/endpoint/create5",
-              "api-reference/endpoint/create6",
-              "api-reference/endpoint/delete"
+              "api-reference/endpoint/signup",
+              "api-reference/endpoint/signin",
+              "api-reference/endpoint/createmeeting",
+              "api-reference/endpoint/meetinginfo",
+              "api-reference/endpoint/transcription",
+              "api-reference/endpoint/addbot",
+              "api-reference/endpoint/updatebot",
+              "api-reference/endpoint/deleteaccount"
             ]
           }
         ]

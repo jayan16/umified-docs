@@ -19,6 +19,431 @@
     }
   ],
   "paths": {
+    "/meeting_info": {
+      "get": {
+        "description": "Returns meeting information and recording file post meeting completion.",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "query",
+            "description": "The session ID of the meeting instance from create meeting api call.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MeetingResponse"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "detail": "Invalid authentication. Could not decode token."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Meeting Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIError"
+                },
+                "example": {
+                  "message": "Meeting not found. Check Session ID.",
+                  "status_code": 404,
+                  "destination": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transcription": {
+      "get": {
+        "description": "Returns the transcription - as a JSON dictionary (default) or as a TXT response (when token passed in query parameters).",
+        "parameters": [
+          {
+            "name": "session_id",
+            "in": "query",
+            "description": "The session ID of the meeting instance from create meeting api call.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "description": "The authentication bearer token value - provide if you want to receive a TXT response of the whole transcription.",            
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TranscriptionResponse"
+                  }
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "John Doe\nThe attendees are there or not. Great. Attendees are also there. Yeah, active speaker is also there. Great.\n\nJane Smith\nOkay.\n\nJohn Doe\nYeah. My Bot is awesome\n\nJane Smith\nCool."
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "detail": "Invalid authentication. Could not decode token."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Meeting Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIError"
+                },
+                "example": {
+                  "message": "Meeting not found. Check Session ID.",
+                  "status_code": 404,
+                  "destination": null
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/add_bot/": {
+      "post": {
+        "description": "Creates a new bot",
+        "requestBody": {
+          "description": "Bot details in form-data. Both bot_name and bot_message are required.",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "bot_name": {
+                    "type": "string",
+                    "description": "Name of the bot"
+                  },
+                  "bot_message": {
+                    "type": "string",
+                    "description": "Bot welcome message"
+                  }
+                },
+                "required": [
+                  "bot_name",
+                  "bot_message"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Bot response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BotResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "detail": "Invalid authentication. Could not decode token."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/update_bot/": {
+      "put": {
+        "description": "Updates an existing bot with new bot message",
+        "requestBody": {
+          "description": "Bot details in form-data. Both bot_name and bot_message are required.",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "bot_name": {
+                    "type": "string",
+                    "description": "Name of the bot"
+                  },
+                  "bot_message": {
+                    "type": "string",
+                    "description": "New Bot welcome message"
+                  }
+                },
+                "required": [
+                  "bot_name",
+                  "bot_message"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Bot response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BotResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                },
+                "example": {
+                  "detail": "Invalid authentication. Could not decode token."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/create_meeting/": {
+      "post": {
+        "description": "Creates a Meeting",
+        "requestBody": {
+          "description": "Bot details in form-data.",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "meeting_url": {
+                    "type": "string",
+                    "description": "Meeting URL - Google Meet, Zoom or Teams"
+                  },
+                  "meeting_name": {
+                    "type": "string",
+                    "description": "A Meeting name."
+                  }
+                },
+                "required": [
+                  "meeting_url",
+                  "meeting_name"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateMeetingResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sign_in/": {
+      "post": {
+        "description": "Sign In to Umified",
+        "requestBody": {
+          "description": "Credentials in form-data.",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email for sign in"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Password for sign in"
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignInResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UnauthorizedError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sign_up/": {
+      "post": {
+        "description": "Sign Up to Umified",
+        "requestBody": {
+          "description": "Credentials in form-data.",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "description": "Email for sign up"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Password for sign up"
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignUpResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/delete_account/": {
+      "delete": {
+        "description": "Delete your umified account",
+        "responses": {
+          "200": {
+            "description": "Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/plants": {
       "get": {
         "description": "Returns all plants from the system that the user has access to",
@@ -154,6 +579,488 @@
   },
   "components": {
     "schemas": {
+      "MeetingResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "object",
+            "properties": {
+              "meeting_name": {
+                "type": "string",
+                "example": "Test Meeting 20250420 - 15 - Gmeet"
+              },
+              "start_datetime": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2025-04-20T17:01:08.864861Z"
+              },
+              "end_datetime": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2025-04-20T17:20:03.669030Z"
+              },
+              "duration": {
+                "type": "string",
+                "example": "1134.804169"
+              },
+              "executed": {
+                "type": "boolean",
+                "example": true
+              },
+              "attendees": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "attendee_name": {
+                      "type": "string",
+                      "example": "Heu AI"
+                    }
+                  },
+                  "required": [
+                    "attendee_name"
+                  ]
+                }
+              },
+              "recording_url": {
+                "type": "string",
+                "format": "uri",
+                "example": "https://umified.blob.core.windows.net/meetings/umifiedpdin20250420123456789012.webm"
+              }
+            },
+            "required": [
+              "meeting_name",
+              "start_datetime",
+              "end_datetime",
+              "duration",
+              "executed",
+              "attendees",
+              "recording_url"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "example": "Got meeting info successfully."
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 200
+          },
+          "destination": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "example": null
+          }
+        },
+        "required": [
+          "result",
+          "message",
+          "status_code",
+          "destination"
+        ]
+      },
+      "TranscriptionResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "speech_no": {
+                  "type": "integer",
+                  "example": 0
+                },
+                "participant_name": {
+                  "type": "string",
+                  "example": "John Doe"
+                },
+                "speech_text": {
+                  "type": "string",
+                  "example": "The attendees are there or not. Great. Attendees are also there. Yeah, active speaker is also there. Great."
+                }
+              },
+              "required": [
+                "speech_no",
+                "participant_name",
+                "speech_text"
+              ]
+            }
+          },
+          "message": {
+            "type": "string",
+            "example": "Your meeting transcription is fetched successfully."
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 200
+          },
+          "destination": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "null" }
+            ],
+            "example": null
+          }
+        },
+        "required": [
+          "result",
+          "message",
+          "status_code",
+          "destination"
+        ]
+      },
+      "BotResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "object",
+            "properties": {
+              "bot_name": {
+                "type": "string",
+                "example": "Bot Name"
+              },
+              "bot_message": {
+                "type": "string",
+                "example": "Bot welcome message"
+              }
+            },
+            "required": [
+              "bot_name",
+              "bot_message"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "example": "Your Bot is added successfully."
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 200
+          },
+          "destination": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "example": null
+          }
+        },
+        "required": [
+          "result",
+          "message",
+          "status_code",
+          "destination"
+        ]
+      },
+      "CreateMeetingResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "object",
+            "properties": {
+              "bot_name": {
+                "type": "string",
+                "example": "Umified Bot"
+              },
+              "bot_message": {
+                "type": "string",
+                "example": "I'm Umified Bot your meeting assistant."
+              },
+              "session_id": {
+                "type": "string",
+                "example": "umifiedpdin20250422061939541365"
+              }
+            },
+            "required": [
+              "bot_name",
+              "bot_message",
+              "session_id"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "example": "Your meeting is created successfully."
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 201
+          },
+          "destination": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "null" }
+            ],
+            "example": null
+          }
+        },
+        "required": [
+          "result",
+          "message",
+          "status_code",
+          "destination"
+        ]
+      },
+      "SignInResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "object",
+            "properties": {
+              "refresh_token": {
+                "type": "string",
+                "example": "<A long-lived token used to obtain new access tokens.>"
+              },
+              "access_token": {
+                "type": "string",
+                "example": "<The primary token (Firebase ID token) used to authenticate API requests and verify the user's identity.>"
+              },
+              "expires_in": {
+                "type": "string",
+                "example": "3600",
+                "description": "The number of seconds until the access token expires."
+              },
+              "local_id": {
+                "type": "string",
+                "example": "<A unique identifier for the user in Firebase Authentication>"
+              }
+            },
+            "required": [
+              "refresh_token",
+              "access_token",
+              "expires_in",
+              "local_id"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "example": "You are signed in successfully."
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 200
+          },
+          "destination": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "null" }
+            ],
+            "example": null
+          }
+        },
+        "required": [
+          "result",
+          "message",
+          "status_code",
+          "destination"
+        ]
+      },
+      "SignUpResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "object",
+            "properties": {
+              "refresh_token": {
+                "type": "string",
+                "example": "<A long-lived token used to obtain new access tokens.>"
+              },
+              "access_token": {
+                "type": "string",
+                "example": "<The primary token (Firebase ID token) used to authenticate API requests and verify the user's identity.>"
+              },
+              "expires_in": {
+                "type": "string",
+                "example": "3600",
+                "description": "The number of seconds until the access token expires."
+              },
+              "local_id": {
+                "type": "string",
+                "example": "<A unique identifier for the user in Firebase Authentication>"
+              }
+            },
+            "required": [
+              "refresh_token",
+              "access_token",
+              "expires_in",
+              "local_id"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "example": "You are signed up successfully."
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 201
+          },
+          "destination": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "null" }
+            ],
+            "example": null
+          }
+        },
+        "required": [
+          "result",
+          "message",
+          "status_code",
+          "destination"
+        ]
+      },
+      "DeleteResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Your account is deleted successfully."
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 200
+          },
+          "destination": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "null" }
+            ],
+            "example": null
+          }
+        },
+        "required": [
+          "message",
+          "status_code",
+          "destination"
+        ]
+      },
+      "APIError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Error Message"
+          },
+          "status_code": {
+            "type": "integer",
+            "enum": [400, 401, 403, 404, 500],
+            "example": 400
+          },
+          "destination": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "example": null
+          }
+        },
+        "required": [
+          "message",
+          "status_code",
+          "destination"
+        ]
+      },
+      "AuthError": {
+        "type": "object",
+        "properties": {
+          "detail": {
+            "type": "string",
+            "example": "Invalid authentication. Could not decode token."
+          }
+        },
+        "required": [
+          "detail"
+        ]
+      },
+      "BadRequestError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Meeting URL should be a valid Zoom, Google Meet, or Microsoft Teams URL."
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 400
+          },
+          "destination": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "null" }
+            ],
+            "example": null
+          }
+        },
+        "required": [
+          "message",
+          "status_code",
+          "destination"
+        ]
+      },
+      "UnauthorizedError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "You are Unauthorized."
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 401
+          },
+          "destination": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "null" }
+            ],
+            "example": null
+          }
+        },
+        "required": [
+          "message",
+          "status_code",
+          "destination"
+        ]
+      },
+      "ConflictError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "You are already registered with this email. Please sign in."
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 409
+          },
+          "destination": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "null" }
+            ],
+            "example": null
+          }
+        },
+        "required": [
+          "message",
+          "status_code",
+          "destination"
+        ]
+      },
       "Plant": {
         "required": [
           "name"

@@ -316,6 +316,7 @@
     "/sign_in/": {
       "post": {
         "description": "Sign In to Umified",
+        "security": [],
         "requestBody": {
           "description": "Credentials in form-data.",
           "content": {
@@ -368,6 +369,7 @@
     "/sign_up/": {
       "post": {
         "description": "Sign Up to Umified",
+        "security": [],
         "requestBody": {
           "description": "Credentials in form-data.",
           "content": {

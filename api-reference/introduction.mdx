@@ -1,33 +1,198 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Welcome to the Umified API.'
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+# Umified API Overview
 
-## Welcome
+Welcome to the Umified API documentation. This API allows you to programmatically integrate with Umified, our meeting assistant bot that joins Google Meet, Zoom, and Microsoft Teams meetings to record audio and generate comprehensive meeting transcriptions.
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+## API Workflow
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+The Umified API follows this workflow:
+
+1. **Account & Authentication**: Sign-up/login for an Umified account and obtain a Bearer token
+2. **Bot Configuration**: Customize your bot's name and message (optional)
+3. **Meeting Management**: Create instant or scheduled meetings for recording
+4. **Retrieve Transcriptions**: Access recordings and transcriptions post meeting completion.
+
+## Base URL
+
+All API requests should be made to:
+
+```bash
+https://api.umified.com/api/v1/
+```
+
+## Core Endpoints
+
+Authentication
+
+* `POST /sign_up/` - Create a new Umified account and obtain access token.
+* `POST /sign_in/` - Sign in and obtain access token.
+* `DELETE /delete_account/` - Delete account.
+
+Meeting Management
+* `POST /create_meeting/` - Create a new meeting (instant or scheduled)
+* `GET /transcription?session_id={id}` - Fetch meeting transcription and return as JSON dictionary.
+* `GET /transcription?session_id={id}&token={access_token}` - Download meeting transcription as a TXT file.
+* `GET /meeting_info?session_id={id}` - Fetch meeting details / status including recording url.
+
+Bot Management
+* `POST /add_bot/` - Add a custom bot with bot message for user.
+* `PUT /update_bot/` - Update the custom bot configuration (bot name and bot message)
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All API endpoints require authentication using Bearer tokens. You'll receive an access token after signing in with your email and password.
+
+Include this token in all subsequent API requests:
+
+```headers
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+## Standard Error Response
+
+Umified API uses conventional HTTP response codes to indicate the status of requests. Error responses follow this format:
 
 ```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+{
+  "message": "Detailed error message",
+  "status_code": 400,
+  "destination": null
+}
 ```
+
+## Code Example: Authentication
+
+Below snippet shows how to sign in to Umified via api call:
+
+<CodeGroup>
+```javascript JavaScript
+// Request a Bearer token
+fetch('https://api.umified.com/api/v1/sign_in/', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    email: 'your-email@example.com',
+    password: 'your-password'
+  })
+})
+.then(response => response.json())
+.then(data => {
+  // Store your access token
+  const accessToken = data.result.access_token;
+  console.log('Authentication successful!');
+})
+.catch(error => console.error('Authentication failed:', error));
+```
+```python Python
+import requests
+
+# Request a Bearer token
+url = "https://api.umified.com/api/v1/sign_in/"
+payload = {
+    "email": "your-email@example.com",
+    "password": "your-password"
+}
+headers = {"Content-Type": "application/json"}
+
+response = requests.post(url, json=payload, headers=headers)
+data = response.json()
+
+# Store your access token
+access_token = data['result']['access_token']
+print("Authentication successful!")
+```
+```bash cURL
+# Request a Bearer token
+curl -X POST https://api.umified.com/api/v1/sign_in/ \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "your-email@example.com",
+    "password": "your-password"
+  }'
+```
+```php PHP
+// Request a Bearer token
+$url = 'https://api.umified.com/api/v1/sign_in/';
+$data = array(
+    'email' => 'your-email@example.com',
+    'password' => 'your-password'
+);
+
+$options = array(
+    'http' => array(
+        'header'  => "Content-type: application/json\r\n",
+        'method'  => 'POST',
+        'content' => json_encode($data)
+    )
+);
+
+$context = stream_context_create($options);
+$result = file_get_contents($url, false, $context);
+$response = json_decode($result, true);
+
+// Store your access token
+$accessToken = $response['result']['access_token'];
+echo "Authentication successful!";
+```
+```java Java
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Scanner;
+import org.json.JSONObject;
+
+// Request a Bearer token
+URL url = new URL("https://api.umified.com/api/v1/sign_in/");
+HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+conn.setRequestMethod("POST");
+conn.setRequestProperty("Content-Type", "application/json");
+conn.setDoOutput(true);
+
+String jsonInputString = "{\"email\": \"your-email@example.com\", \"password\": \"your-password\"}";
+
+try(OutputStream os = conn.getOutputStream()) {
+    byte[] input = jsonInputString.getBytes("utf-8");
+    os.write(input, 0, input.length);
+}
+
+try(Scanner scanner = new Scanner(conn.getInputStream())) {
+    String responseBody = scanner.useDelimiter("\\A").next();
+    JSONObject jsonResponse = new JSONObject(responseBody);
+    
+    // Store your access token
+    String accessToken = jsonResponse.getJSONObject("result").getString("access_token");
+    System.out.println("Authentication successful!");
+}
+```
+</CodeGroup>
+
+After signing in to the Umified API, you'll receive a 200 OK response in case of successful sign in or a 401 Unauthorized error incase of invalid credentials:
+
+<CodeGroup>
+```json 200 OK
+{
+    "result": {
+        "refresh_token": "A long-lived token used to obtain new access tokens.",
+        "access_token": "The primary token (Firebase ID token) used to authenticate API requests and verify the user's identity.",
+        "expires_in": "time in seconds",
+        "local_id": "A unique identifier for the user in Firebase Authentication"
+    },
+    "message": "You are signed in successfully.",
+    "status_code": 200,
+    "destination": null
+}
+```
+```json 401 Unauthorized
+{
+    "message": "You are Unauthorized.",
+    "status_code": 401,
+    "destination": null
+}
+```
+</CodeGroup>

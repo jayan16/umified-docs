@@ -48,14 +48,12 @@
             "pages": [
               "api-reference/endpoint/get",
               "api-reference/endpoint/get2",
-              "api-reference/endpoint/create",
               "api-reference/endpoint/create2",
               "api-reference/endpoint/create3",
               "api-reference/endpoint/create4",
               "api-reference/endpoint/create5",
               "api-reference/endpoint/create6",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "api-reference/endpoint/delete"
             ]
           }
         ]

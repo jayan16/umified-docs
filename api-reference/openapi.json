@@ -265,7 +265,7 @@
       "post": {
         "description": "Creates a Meeting",
         "requestBody": {
-          "description": "Bot details in form-data.",
+          "description": "Details in form-data.",
           "content": {
             "multipart/form-data": {
               "schema": {
@@ -278,11 +278,162 @@
                   "meeting_name": {
                     "type": "string",
                     "description": "A Meeting name."
+                  },
+                  "meeting_start_datetime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+\\-]\\d{2}:\\d{2})$",
+                    "description": "Required for Scheduled Meeting.\nStart date and time in ISO-8601 with timezone offset (+HH:MM), optional fractional seconds.",
+                    "examples": {
+                      "UTC": {
+                        "summary": "UTC Time",
+                        "value": "2025-04-28T15:05:35.759770+00:00"
+                      },
+                      "IST": {
+                        "summary": "IST Time",
+                        "value": "2025-04-28T20:35:35.762760+05:30"
+                      },
+                      "UTC+1": {
+                        "summary": "UTC+1 Time",
+                        "value": "2025-04-28T16:05:35.759770+01:00"
+                      }
+                    }
+                  },
+                  "meeting_end_datetime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+\\-]\\d{2}:\\d{2})$",
+                    "description": "Required for Scheduled Meeting.\nEnd date and time in ISO-8601 with timezone offset (+HH:MM), optional fractional seconds.",
+                    "examples": {
+                      "UTC": {
+                        "summary": "UTC Time",
+                        "value": "2025-04-28T15:05:35.759770+00:00"
+                      },
+                      "IST": {
+                        "summary": "IST Time",
+                        "value": "2025-04-28T20:35:35.762760+05:30"
+                      },
+                      "UTC+1": {
+                        "summary": "UTC+1 Time",
+                        "value": "2025-04-28T16:05:35.759770+01:00"
+                      }
+                    }
+                  },
+                  "bot_name": {
+                    "type": "string",
+                    "description": "Name of the bot - for Kyloe users"
+                  },
+                  "bot_message": {
+                    "type": "string",
+                    "description": "Bot welcome message - for Kyloe users"
                   }
                 },
                 "required": [
                   "meeting_url",
                   "meeting_name"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateMeetingResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/update_meeting/": {
+      "put": {
+        "description": "Updates a Scheduled Meeting",
+        "requestBody": {
+          "description": "Details in form-data.",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "session_id": {
+                    "type": "string",
+                    "description": "The session ID of the meeting instance from create meeting api call."
+                  },
+                  "meeting_url": {
+                    "type": "string",
+                    "description": "OPTIONAL.\nProvide value if you want to update the meeting URL (supports **Google Meet**, **Zoom** or **Teams**)."
+                  },
+                  "meeting_name": {
+                    "type": "string",
+                    "description": "OPTIONAL.\nProvide value if you want to update the meeting name."
+                  },
+                  "meeting_start_datetime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+\\-]\\d{2}:\\d{2})$",
+                    "description": "OPTIONAL.\nProvide value if you want to update the meeting start date and time.\nStart date and time in ISO-8601 with timezone offset (+HH:MM), optional fractional seconds.",
+                    "examples": {
+                      "UTC": {
+                        "summary": "UTC Time",
+                        "value": "2025-04-28T15:05:35.759770+00:00"
+                      },
+                      "IST": {
+                        "summary": "IST Time",
+                        "value": "2025-04-28T20:35:35.762760+05:30"
+                      },
+                      "UTC+1": {
+                        "summary": "UTC+1 Time",
+                        "value": "2025-04-28T16:05:35.759770+01:00"
+                      }
+                    }
+                  },
+                  "meeting_end_datetime": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+\\-]\\d{2}:\\d{2})$",
+                    "description": "OPTIONAL.\nProvide value if you want to update the meeting end date and time.\nEnd date and time in ISO-8601 with timezone offset (+HH:MM), optional fractional seconds.",
+                    "examples": {
+                      "UTC": {
+                        "summary": "UTC Time",
+                        "value": "2025-04-28T15:05:35.759770+00:00"
+                      },
+                      "IST": {
+                        "summary": "IST Time",
+                        "value": "2025-04-28T20:35:35.762760+05:30"
+                      },
+                      "UTC+1": {
+                        "summary": "UTC+1 Time",
+                        "value": "2025-04-28T16:05:35.759770+01:00"
+                      }
+                    }
+                  },
+                  "bot_name": {
+                    "type": "string",
+                    "description": "Name of the bot - for Kyloe users"
+                  },
+                  "bot_message": {
+                    "type": "string",
+                    "description": "Bot welcome message - for Kyloe users"
+                  }
+                },
+                "required": [
+                  "session_id"
                 ]
               }
             }

@@ -25,6 +25,7 @@
               "api-reference/endpoint/signup",
               "api-reference/endpoint/signin",
               "api-reference/endpoint/createmeeting",
+              "api-reference/endpoint/updatemeeting",
               "api-reference/endpoint/meetinginfo",
               "api-reference/endpoint/transcription",
               "api-reference/endpoint/addbot",

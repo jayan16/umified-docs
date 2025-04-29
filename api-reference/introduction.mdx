@@ -34,6 +34,7 @@ Authentication
 
 Meeting Management
 * `POST /create_meeting/` - Create a new meeting (instant or scheduled)
+* `PUT /update_meeting/` - Update a scheduled meeting.
 * `GET /transcription?session_id={id}` - Fetch meeting transcription and return as JSON dictionary.
 * `GET /transcription?session_id={id}&token={access_token}` - Download meeting transcription as a TXT file.
 * `GET /meeting_info?session_id={id}` - Fetch meeting details / status including recording url.

@@ -279,11 +279,11 @@
                     "type": "string",
                     "description": "A Meeting name."
                   },
-                  "meeting_start_datetime": {
+                  "start_datetime": {
                     "type": "string",
                     "format": "date-time",
                     "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+\\-]\\d{2}:\\d{2})$",
-                    "description": "Required for Scheduled Meeting.\nStart date and time in ISO-8601 with timezone offset (+HH:MM), optional fractional seconds.",
+                    "description": "*OPTIONAL* - Required for Scheduled Meeting.\nStart datetime shall be strictly in ISO-8601 with timezone offset (+HH:MM).\nExamples:\n\t*2025-05-05T14:30:00.123456+05:30*,\n\t*2025-05-05T14:30:00+04:00*,\n\t*2025-05-05 14:30:00-05:00*.",
                     "examples": {
                       "UTC": {
                         "summary": "UTC Time",
@@ -299,11 +299,11 @@
                       }
                     }
                   },
-                  "meeting_end_datetime": {
+                  "end_datetime": {
                     "type": "string",
                     "format": "date-time",
                     "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+\\-]\\d{2}:\\d{2})$",
-                    "description": "Required for Scheduled Meeting.\nEnd date and time in ISO-8601 with timezone offset (+HH:MM), optional fractional seconds.",
+                    "description": "*OPTIONAL* - Required for Scheduled Meeting.\nEnd datetime shall be strictly in ISO-8601 with timezone offset (+HH:MM).\nExamples:\n\t*2025-05-05T14:30:00.123456+05:30*,\n\t*2025-05-05T14:30:00+04:00*,\n\t*2025-05-05 14:30:00-05:00*.",
                     "examples": {
                       "UTC": {
                         "summary": "UTC Time",
@@ -321,11 +321,25 @@
                   },
                   "bot_name": {
                     "type": "string",
-                    "description": "Name of the bot - for Kyloe users"
+                    "description": "*OPTIONAL* - Name of the bot - for Kyloe users. If used, both `bot_name` and `bot_message` shall be provided together."
                   },
                   "bot_message": {
                     "type": "string",
-                    "description": "Bot welcome message - for Kyloe users"
+                    "description": "*OPTIONAL* - Bot welcome message - for Kyloe users. If used, both `bot_name` and `bot_message` shall be provided together."
+                  },
+                  "client_code": {
+                    "type": "string",
+                    "description": "*OPTIONAL* - Client code for identifying the user",
+                    "examples": {
+                      "Umified": {
+                        "summary": "Umified Client Code",
+                        "value": "umified"
+                      },
+                      "Kyloe": {
+                        "summary": "Kyloe Client Code",
+                        "value": "kyloe"
+                      }
+                    }
                   }
                 },
                 "required": [
@@ -383,11 +397,11 @@
                     "type": "string",
                     "description": "OPTIONAL.\nProvide value if you want to update the meeting name."
                   },
-                  "meeting_start_datetime": {
+                  "start_datetime": {
                     "type": "string",
                     "format": "date-time",
                     "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+\\-]\\d{2}:\\d{2})$",
-                    "description": "OPTIONAL.\nProvide value if you want to update the meeting start date and time.\nStart date and time in ISO-8601 with timezone offset (+HH:MM), optional fractional seconds.",
+                    "description": "*OPTIONAL* - Required for Scheduled Meeting.\nStart datetime shall be strictly in ISO-8601 with timezone offset (+HH:MM).\nExamples:\n\t*2025-05-05T14:30:00.123456+05:30*,\n\t*2025-05-05T14:30:00+04:00*,\n\t*2025-05-05 14:30:00-05:00*.",
                     "examples": {
                       "UTC": {
                         "summary": "UTC Time",
@@ -403,11 +417,11 @@
                       }
                     }
                   },
-                  "meeting_end_datetime": {
+                  "end_datetime": {
                     "type": "string",
                     "format": "date-time",
                     "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+\\-]\\d{2}:\\d{2})$",
-                    "description": "OPTIONAL.\nProvide value if you want to update the meeting end date and time.\nEnd date and time in ISO-8601 with timezone offset (+HH:MM), optional fractional seconds.",
+                    "description": "*OPTIONAL* - Required for Scheduled Meeting.\nEnd datetime shall be strictly in ISO-8601 with timezone offset (+HH:MM).\nExamples:\n\t*2025-05-05T14:30:00.123456+05:30*,\n\t*2025-05-05T14:30:00+04:00*,\n\t*2025-05-05 14:30:00-05:00*.",
                     "examples": {
                       "UTC": {
                         "summary": "UTC Time",
@@ -425,11 +439,11 @@
                   },
                   "bot_name": {
                     "type": "string",
-                    "description": "Name of the bot - for Kyloe users"
+                    "description": "*OPTIONAL* - Name of the bot - for Kyloe users. If used, both `bot_name` and `bot_message` shall be provided together."
                   },
                   "bot_message": {
                     "type": "string",
-                    "description": "Bot welcome message - for Kyloe users"
+                    "description": "*OPTIONAL* - Bot welcome message - for Kyloe users. If used, both `bot_name` and `bot_message` shall be provided together."
                   }
                 },
                 "required": [

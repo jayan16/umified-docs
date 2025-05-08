@@ -455,12 +455,26 @@
           "required": true
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "Response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CreateMeetingResponse"
+                  "$ref": "#/components/schemas/UpdateMeetingResponse"
+                },
+                "example": {
+                  "result": {
+                    "bot_name": "Client's Bot 1",
+                    "bot_message": "Hi there!",
+                    "meeting_url": "https://meet.google.com/abc-defg-hij (updated url)",
+                    "meeting_name": "Client's Meeting 1-updated",
+                    "start_datetime": "2025-05-08T11:07:00.762760+05:30",
+                    "end_datetime": "2025-05-08T11:15:35.762760+05:30",
+                    "session_id": "clientpdsc20250508153512066611"
+                  },
+                  "message": "Your meeting is updated successfully.",
+                  "status_code": 200,
+                  "destination": null
                 }
               }
             }
@@ -830,6 +844,63 @@
           "status_code": {
             "type": "integer",
             "example": 201
+          },
+          "destination": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "null" }
+            ],
+            "example": null
+          }
+        },
+        "required": [
+          "result",
+          "message",
+          "status_code",
+          "destination"
+        ]
+      },
+      "UpdateMeetingResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "object",
+            "description": "Only the fields that were updated",
+            "properties": {
+              "meeting_url": {
+                "type": "string",
+                "format": "uri"
+              },
+              "meeting_name": {
+                "type": "string"
+              },
+              "start_datetime": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "end_datetime": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "bot_name": {
+                "type": "string"
+              },
+              "bot_message": {
+                "type": "string"
+              },
+              "session_id": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "message": {
+            "type": "string",
+            "example": "Your meeting is updated successfully."
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 200
           },
           "destination": {
             "oneOf": [

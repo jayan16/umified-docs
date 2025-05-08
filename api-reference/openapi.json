@@ -102,13 +102,44 @@
         ],
         "responses": {
           "200": {
-            "description": "Successful response",
+            "description": "Successful response (either transcription list or status message)",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TranscriptionResponse"
+                  "oneOf": [
+                    {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/TranscriptionResponse" }
+                    },
+                    { "$ref": "#/components/schemas/TranscriptionStatusResponse" }
+                  ]
+                },
+                "examples": {
+                  "transcriptionList": {
+                    "summary": "Normal JSON transcription",
+                    "value": [
+                      {
+                        "speech_no": 0,
+                        "participant_name": "John Doe",
+                        "speech_text": "The attendees are there…"
+                      }
+                    ]
+                  },
+                  "processing": {
+                    "summary": "Processing in progress",
+                    "value": {
+                      "message": "Audio processing is in progress. Please try again later.",
+                      "status_code": 200,
+                      "destination": null
+                    }
+                  },
+                  "noRecording": {
+                    "summary": "No recording available",
+                    "value": {
+                      "message": "Recording is not available for this meeting so no transcription available.",
+                      "status_code": 200,
+                      "destination": null
+                    }
                   }
                 }
               },
@@ -764,6 +795,24 @@
           "status_code",
           "destination"
         ]
+      },
+      "TranscriptionStatusResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          },
+          "status_code": {
+            "type": "integer"
+          },
+          "destination": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "null" }
+            ]
+          }
+        },
+        "required": ["message","status_code","destination"]
       },
       "BotResponse": {
         "type": "object",

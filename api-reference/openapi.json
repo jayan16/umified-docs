@@ -271,7 +271,16 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/BotResponse"
+                  "$ref": "#/components/schemas/UpdateBotResponse"
+                },
+                "example": {
+                  "result": {
+                    "bot_name": "Umified Bot",
+                    "bot_message": "Hello!!"
+                  },
+                  "message": "Your Bot is updated successfully.",
+                  "status_code": 200,
+                  "destination": null
                 }
               }
             }
@@ -850,6 +859,49 @@
               {
                 "type": "null"
               }
+            ],
+            "example": null
+          }
+        },
+        "required": [
+          "result",
+          "message",
+          "status_code",
+          "destination"
+        ]
+      },
+      "UpdateBotResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "object",
+            "properties": {
+              "bot_name": {
+                "type": "string",
+                "example": "Umified Bot"
+              },
+              "bot_message": {
+                "type": "string",
+                "example": "Hello!!"
+              }
+            },
+            "required": [
+              "bot_name",
+              "bot_message"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "example": "Your Bot is updated successfully."
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 200
+          },
+          "destination": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "null" }
             ],
             "example": null
           }

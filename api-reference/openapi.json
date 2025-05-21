@@ -484,6 +484,15 @@
                   "bot_message": {
                     "type": "string",
                     "description": "*OPTIONAL* - Bot welcome message - for Kyloe users. If used, both `bot_name` and `bot_message` shall be provided together."
+                  },
+                  "invite_status": {
+                    "type": "string",
+                    "description": "*OPTIONAL* - Meeting status; Default (if not specified) is 'updated'. Pass 'cancelled' if you want to cancel the meeting.",
+                    "enum": [
+                      "updated",
+                      "cancelled"
+                    ],
+                    "default": "updated"
                   }
                 },
                 "required": [

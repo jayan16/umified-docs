@@ -313,7 +313,7 @@
                 "properties": {
                   "meeting_url": {
                     "type": "string",
-                    "description": "Meeting URL - Google Meet, Zoom or Teams"
+                    "description": "Meeting URL - Google Meet, Zoom or Teams. \n\n**Note:** Teams meeting URL shall be in below format \n*https://teams.live.com/meet/{meeting-id}?p={passcode}*. \nExample:\r*https://teams.live.com/meet/0123456789123?p=Ab12aBa1*"
                   },
                   "meeting_name": {
                     "type": "string",
@@ -323,7 +323,7 @@
                     "type": "string",
                     "format": "date-time",
                     "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+\\-]\\d{2}:\\d{2})$",
-                    "description": "*OPTIONAL* - Required for Scheduled Meeting.\nStart datetime shall be strictly in ISO-8601 with timezone offset (+HH:MM).\nExamples:\n\t*2025-05-05T14:30:00.123456+05:30*,\n\t*2025-05-05T14:30:00+04:00*,\n\t*2025-05-05 14:30:00-05:00*.",
+                    "description": "**Required for Scheduled Meeting.**\nStart datetime shall be strictly in ISO-8601 with timezone offset (+HH:MM).\nExamples:\n\t*2025-05-05T14:30:00.123456+05:30*,\n\t*2025-05-05T14:30:00+04:00*,\n\t*2025-05-05 14:30:00-05:00*.",
                     "examples": {
                       "UTC": {
                         "summary": "UTC Time",
@@ -343,7 +343,7 @@
                     "type": "string",
                     "format": "date-time",
                     "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+\\-]\\d{2}:\\d{2})$",
-                    "description": "*OPTIONAL* - Required for Scheduled Meeting.\nEnd datetime shall be strictly in ISO-8601 with timezone offset (+HH:MM).\nExamples:\n\t*2025-05-05T14:30:00.123456+05:30*,\n\t*2025-05-05T14:30:00+04:00*,\n\t*2025-05-05 14:30:00-05:00*.",
+                    "description": "**Required for Scheduled Meeting.**\nEnd datetime shall be strictly in ISO-8601 with timezone offset (+HH:MM).\nExamples:\n\t*2025-05-05T14:30:00.123456+05:30*,\n\t*2025-05-05T14:30:00+04:00*,\n\t*2025-05-05 14:30:00-05:00*.",
                     "examples": {
                       "UTC": {
                         "summary": "UTC Time",

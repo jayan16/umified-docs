@@ -308,10 +308,10 @@
           {
             "name": "destination_path",
             "in": "query",
-            "description": "Optional S3 destination folder for transcript file upload (must end in `/`). \nE.g. `s3://bucket_name/` or `s3://bucket-name/folder-name/`.",
+            "description": "**_For Kyloe Partners Only_**\n\n*Optional*. S3 destination for meeting transcript file upload (must end in `/`). \nE.g. `s3://bucket_name/` *or* `s3://bucket-name/folder-name/`.\nHere, `bucket_name` is the name of your S3 prod bucket: \n`notetaker-transcripts-prod-<12-digit-aws-account-id>-eu-west-1`. \n\nPost meeting, once transcription is completed, the transcript file will be uploaded to: \n`<destination_path>/<meeting-session-id>/meeting-transcript.txt`.",
             "schema": {
               "type": "string",
-              "pattern": "^s3://[a-z0-9][a-z0-9\\.-]{1,61}[a-z0-9](?:/[A-Za-z0-9!\\.\\_\\-\\*\\'\\(\\)]+)*/$"
+              "pattern": "^s3://notetaker-transcripts-prod-032265101474-eu-west-1(?:/[A-Za-z0-9!\\.\\_\\-\\*'\\(\\)]+)*/$"
             }
           }
         ],
@@ -433,10 +433,10 @@
           {
             "name": "destination_path",
             "in": "query",
-            "description": "Optional S3 destination folder for transcript file upload (must end in `/`). \nE.g. `s3://bucket_name/` or `s3://bucket-name/folder-name/`.",
+            "description": "**_For Kyloe Partners Only_**\n\n*Optional*. S3 destination for meeting transcript file upload (must end in `/`). \nE.g. `s3://bucket_name/` *or* `s3://bucket-name/folder-name/`.\nHere, `bucket_name` is the name of your S3 prod bucket: \n`notetaker-transcripts-prod-<12-digit-aws-account-id>-eu-west-1`. \n\nPost meeting, once transcription is completed, the transcript file will be uploaded to: \n`<destination_path>/<meeting-session-id>/meeting-transcript.txt`.",
             "schema": {
               "type": "string",
-              "pattern": "^s3://[a-z0-9][a-z0-9\\.-]{1,61}[a-z0-9](?:/[A-Za-z0-9!\\.\\_\\-\\*\\'\\(\\)]+)*/$"
+              "pattern": "^s3://notetaker-transcripts-prod-032265101474-eu-west-1(?:/[A-Za-z0-9!\\.\\_\\-\\*'\\(\\)]+)*/$"
             }
           }
         ],

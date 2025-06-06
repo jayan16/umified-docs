@@ -304,6 +304,17 @@
     "/create_meeting/": {
       "post": {
         "description": "Creates a Meeting",
+        "parameters": [
+          {
+            "name": "destination_path",
+            "in": "query",
+            "description": "Optional S3 destination folder (must end in `/`). E.g. `s3://bucket_name/` or `s3://bucket-name/folder-name/`.",
+            "schema": {
+              "type": "string",
+              "pattern": "^s3://[a-z0-9][a-z0-9\\.-]{1,61}[a-z0-9](?:/[A-Za-z0-9!\\.\\_\\-\\*\\'\\(\\)]+)*/$"
+            }
+          }
+        ],
         "requestBody": {
           "description": "Details in form-data.",
           "content": {
@@ -418,6 +429,17 @@
     "/update_meeting/": {
       "put": {
         "description": "Updates a Scheduled Meeting",
+        "parameters": [
+          {
+            "name": "destination_path",
+            "in": "query",
+            "description": "Optional S3 destination folder (must end in `/`). E.g. `s3://bucket_name/` or `s3://bucket-name/folder-name/`.",
+            "schema": {
+              "type": "string",
+              "pattern": "^s3://[a-z0-9][a-z0-9\\.-]{1,61}[a-z0-9](?:/[A-Za-z0-9!\\.\\_\\-\\*\\'\\(\\)]+)*/$"
+            }
+          }
+        ],
         "requestBody": {
           "description": "Details in form-data.",
           "content": {
@@ -519,7 +541,8 @@
                     "meeting_name": "Client's Meeting 1-updated",
                     "start_datetime": "2025-05-08T11:07:00.762760+05:30",
                     "end_datetime": "2025-05-08T11:15:35.762760+05:30",
-                    "session_id": "clientpdsc20250508153512066611"
+                    "session_id": "clientpdsc20250508153512066611",
+                    "destination_path": "s3://bucket-name/folder-name/"
                   },
                   "message": "Your meeting is updated successfully.",
                   "status_code": 200,

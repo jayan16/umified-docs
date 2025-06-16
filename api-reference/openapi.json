@@ -372,11 +372,7 @@
                   },
                   "bot_name": {
                     "type": "string",
-                    "description": "*OPTIONAL* - Name of the bot - for Kyloe users. If used, both `bot_name` and `bot_message` shall be provided together."
-                  },
-                  "bot_message": {
-                    "type": "string",
-                    "description": "*OPTIONAL* - Bot welcome message - for Kyloe users. If used, both `bot_name` and `bot_message` shall be provided together."
+                    "description": "*OPTIONAL* - Custom name for the bot."
                   },
                   "client_code": {
                     "type": "string",
@@ -386,9 +382,9 @@
                         "summary": "Umified Client Code",
                         "value": "umified"
                       },
-                      "Kyloe": {
-                        "summary": "Kyloe Client Code",
-                        "value": "kyloe"
+                      "ACME Corp.": {
+                        "summary": "ACME Client Code",
+                        "value": "acme"
                       }
                     }
                   }
@@ -501,11 +497,7 @@
                   },
                   "bot_name": {
                     "type": "string",
-                    "description": "*OPTIONAL* - Name of the bot - for Kyloe users. If used, both `bot_name` and `bot_message` shall be provided together."
-                  },
-                  "bot_message": {
-                    "type": "string",
-                    "description": "*OPTIONAL* - Bot welcome message - for Kyloe users. If used, both `bot_name` and `bot_message` shall be provided together."
+                    "description": "*OPTIONAL* - Custom name for the bot."
                   },
                   "invite_status": {
                     "type": "string",
@@ -536,7 +528,6 @@
                 "example": {
                   "result": {
                     "bot_name": "Client's Bot 1",
-                    "bot_message": "Hi there!",
                     "meeting_url": "https://meet.google.com/abc-defg-hij (updated url)",
                     "meeting_name": "Client's Meeting 1-updated",
                     "start_datetime": "2025-05-08T11:07:00.762760+05:30",
@@ -955,10 +946,6 @@
                 "type": "string",
                 "example": "Umified Bot"
               },
-              "bot_message": {
-                "type": "string",
-                "example": "I'm Umified Bot your meeting assistant."
-              },
               "session_id": {
                 "type": "string",
                 "example": "umifiedpdin20250422061939541365"
@@ -966,7 +953,6 @@
             },
             "required": [
               "bot_name",
-              "bot_message",
               "session_id"
             ]
           },
@@ -1016,9 +1002,6 @@
                 "format": "date-time"
               },
               "bot_name": {
-                "type": "string"
-              },
-              "bot_message": {
                 "type": "string"
               },
               "session_id": {

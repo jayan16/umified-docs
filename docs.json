@@ -28,8 +28,6 @@
               "api-reference/endpoint/updatemeeting",
               "api-reference/endpoint/meetinginfo",
               "api-reference/endpoint/transcription",
-              "api-reference/endpoint/addbot",
-              "api-reference/endpoint/updatebot",
               "api-reference/endpoint/deleteaccount"
             ]
           }

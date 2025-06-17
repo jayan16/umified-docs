@@ -94,7 +94,7 @@
           {
             "name": "token",
             "in": "query",
-            "description": "The authentication bearer token value - provide if you want to receive a TXT response of the whole transcription.",            
+            "description": "The authentication bearer token value - provide if you would like to download the whole transcription as a VTT file.",            
             "schema": {
               "type": "string"
             }
@@ -143,10 +143,10 @@
                   }
                 }
               },
-              "text/plain": {
+              "text/vtt": {
                 "schema": {
                   "type": "string",
-                  "example": "John Doe\nThe attendees are there or not. Great. Attendees are also there. Yeah, active speaker is also there. Great.\n\nJane Smith\nOkay.\n\nJohn Doe\nYeah. My Bot is awesome\n\nJane Smith\nCool."
+                  "example": "WEBVTT\n\n00:00:05.000 --> 00:00:40.000\n<v John Doe>The attendees are there or not. Great. Attendees are also there. Yeah, active speaker is also there. Great.\n\n00:00:41.000 --> 00:00:50.000\n<v Jane Smith>Okay."
                 }
               }
             }

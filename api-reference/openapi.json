@@ -675,6 +675,82 @@
           }
         }
       }
+    },
+    "/calendar_oauth/": {
+      "post": {
+        "description": "OAuth2.0 for Calendar Access",
+        "requestBody": {
+          "description": "Authorization code, redirect URI and platform in form-data.",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string",
+                    "description": "The authorization code received from the OAuth provider."
+                  },
+                  "redirect_uri": {
+                    "type": "string",
+                    "description": "The redirect URI used in the OAuth flow."
+                  },
+                  "platform": {
+                    "type": "string",
+                    "description": "The calendar platform.",
+                    "enum": [
+                      "microsoft_outlook",
+                      "google"
+                    ]
+                  }
+                },
+                "required": [
+                  "code",
+                  "redirect_uri",
+                  "platform"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Calendar connected successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalendarOAuthResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BadRequestError"
+                },
+                "example": {
+                  "message": "Authorization code from oauth, redirect URI, and platform are required.",
+                  "status_code": 400,
+                  "destination": null
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Invalid authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -741,6 +817,63 @@
           "message": {
             "type": "string",
             "example": "Got meeting info successfully."
+          },
+          "status_code": {
+            "type": "integer",
+            "example": 200
+          },
+          "destination": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "example": null
+          }
+        },
+        "required": [
+          "result",
+          "message",
+          "status_code",
+          "destination"
+        ]
+      },
+      "CalendarOAuthResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "object",
+            "properties": {
+              "refresh_token": {
+                "type": "string",
+                "example": "QWERTYUIOPASDFGHJKLZXCVBNM123456"
+              },
+              "access_token": {
+                "type": "string",
+                "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFwcENsaWVudElEIn0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+              },
+              "oauth_client_id": {
+                "type": "string",
+                "example": "123e4567-e89b-12d3-a456-426614174000"
+              },
+              "redirect_uri": {
+                "type": "string",
+                "format": "uri"
+              }
+            },
+            "required": [
+              "refresh_token",
+              "access_token",
+              "oauth_client_id",
+              "redirect_uri"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "example": "Calendar connected successfully."
           },
           "status_code": {
             "type": "integer",
